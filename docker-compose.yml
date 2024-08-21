@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  articlespostgredbcrudoperations:
+    image: ${DOCKER_REGISTRY-}articlespostgredbcrudoperations
+    build:
+      context: .
+      dockerfile: ArticlesPOSTGREDBCRUDOperations/Dockerfile
+    ports:
+       - "5000:8080" 
+  db:   
+    image: postgres:13
+    environment:
+      POSTGRES_USER: loc-pg-user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: appdb
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+volumes:  
+  dbdata: 
