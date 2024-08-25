@@ -36,6 +36,44 @@ Update your appsettings.json to include the PostgreSQL connection string:
   }
 }
 ```
+
+## Authentication
+
+This API uses JWT Bearer token authentication. To access the protected endpoints, you need to include a valid JWT token in the `Authorization` header of your requests.
+## Authentication
+
+To use the authentication feature, follow these steps:
+
+1. **Login to generate a token:**
+   - Endpoint: `/login`
+   - Method: `POST`
+   - Request Body:
+     ```json
+     {
+       "username": "test",
+       "password": "password"
+     }
+     ```
+
+2. **Example Request:**
+   ```bash
+   curl -X POST http://localhost:3000/login \
+   -H "Content-Type: application/json" \
+   -d '{
+     "username": "test",
+     "password": "password"
+   }'
+   ```
+3. Response:
+  - On successful login, you will receive a JWT token in the response.
+4. Use the token:
+  - Include the token in the Authorization header of your requests to access protected routes.
+    ```bash
+    curl -X GET http://localhost:3000/protected-route \
+-H "Authorization: Bearer <your-jwt-token>"
+    ```
+    Make sure to replace <your-jwt-token> with the token you received from the login response.
+
 ## API Endpoints
 ### Articles Controller
 #### Get All Articles
