@@ -1,11 +1,13 @@
 ﻿using ArticlesPOSTGREDBCRUDOperations.Data;
 using ArticlesPOSTGREDBCRUDOperations.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace ArticlesPOSTGREDBCRUDOperations.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/articles")]
     public class ArticlesController : ControllerBase
