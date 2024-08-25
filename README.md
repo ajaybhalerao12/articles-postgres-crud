@@ -36,6 +36,48 @@ Update your appsettings.json to include the PostgreSQL connection string:
   }
 }
 ```
+## API Endpoints
+### Articles Controller
+#### Get All Articles
+- URL: /api/articles
+- Method: GET
+- Description: Retrieves a list of all articles.
+
+####  Get Article by ID
+- URL: /api/articles/{id}
+- Method: GET
+- Description: Retrieves a single article by its ID.
+- 
+#### Create a New Article
+- URL: /api/articles
+- Method: POST
+- Description: Creates a new article.
+- Request Body:
+```bash
+{
+    "title": "string",
+    "content": "string"
+}
+```
+
+#### Update an Article
+- URL: /api/articles/{id}
+- Method: PUT
+- Description: Updates an existing article by its ID.
+- Request Body:
+```bash
+{
+    "id": 1,
+    "title": "Updated Title",
+    "content": "Updated Content",
+    "createdAt": "2023-08-25T18:51:28"
+}
+```
+
+#### Delete an Article
+- URL: /api/articles/{id}
+- Method: DELETE
+- Description: Deletes an article by its ID.
 
 ## Contributing
 Feel free to open issues and submit pull requests. Contributions are welcome!
