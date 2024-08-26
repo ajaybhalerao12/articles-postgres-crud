@@ -3,6 +3,7 @@ using System;
 using ArticlesPOSTGREDBCRUDOperations.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ArticlesPOSTGREDBCRUDOperations.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240826144218_UserTableAddPasswordColumn")]
+    partial class UserTableAddPasswordColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,14 +55,14 @@ namespace ArticlesPOSTGREDBCRUDOperations.Migrations
                         {
                             Id = 1,
                             Content = "This is the content of the first article.",
-                            CreatedAt = new DateTime(2024, 8, 26, 14, 48, 35, 130, DateTimeKind.Utc).AddTicks(3093),
+                            CreatedAt = new DateTime(2024, 8, 26, 14, 42, 17, 991, DateTimeKind.Utc).AddTicks(7003),
                             Title = "First Article"
                         },
                         new
                         {
                             Id = 2,
                             Content = "This is the content of the second article.",
-                            CreatedAt = new DateTime(2024, 8, 26, 14, 48, 35, 130, DateTimeKind.Utc).AddTicks(3098),
+                            CreatedAt = new DateTime(2024, 8, 26, 14, 42, 17, 991, DateTimeKind.Utc).AddTicks(7009),
                             Title = "Second Article"
                         });
                 });
@@ -71,6 +74,11 @@ namespace ArticlesPOSTGREDBCRUDOperations.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
@@ -90,13 +98,15 @@ namespace ArticlesPOSTGREDBCRUDOperations.Migrations
                         new
                         {
                             Id = 1,
-                            PasswordHash = "$2a$11$rihoS60h2FSl/Sta/LwYluV7hauS/ggMuvCnvUmCeWOnbUL1zul2W",
+                            Password = "password",
+                            PasswordHash = "$2a$11$tz.wk9z5N.nxOcih2yRdzutfbGmxL9C4rHURbB3tXR3AbZxAeHQsq",
                             UserName = "test"
                         },
                         new
                         {
                             Id = 2,
-                            PasswordHash = "$2a$11$.IN/CpWTdzh..aMQNBhIvOb/NHp1C9bI/5kmf6msfV9VSJPMq79IS",
+                            Password = "password2",
+                            PasswordHash = "$2a$11$mZ3w2GCiNM8bLswR0iipUusvuYFmdPSOk2ejD3eU6TfcjAzvhsbLS",
                             UserName = "test2"
                         });
                 });

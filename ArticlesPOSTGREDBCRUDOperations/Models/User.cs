@@ -11,9 +11,10 @@ namespace ArticlesPOSTGREDBCRUDOperations.Models
 
         [Required]
         [StringLength(20)]
-        public string UserName  { get; set; }
+        public required string UserName  { get; set; }
+
         [Required]
-        [StringLength(50)]
-        public string Password { get; set; }
+        [StringLength(255)]
+        public required string PasswordHash { get; set; }
     }
 }

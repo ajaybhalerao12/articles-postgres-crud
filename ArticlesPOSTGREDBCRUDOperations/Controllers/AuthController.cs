@@ -20,8 +20,8 @@ namespace ArticlesPOSTGREDBCRUDOperations.Controllers
         {            
             var user = _context.Users
                 .SingleOrDefault(u => u.UserName == model.Username);
-
-            if (user == null || model.Password != user.Password)
+            
+            if (user == null || !BCrypt.Net.BCrypt.Verify(model.Password, user.PasswordHash))                
             {
                 return Unauthorized(new { message = "Invalid username or password" });
             }

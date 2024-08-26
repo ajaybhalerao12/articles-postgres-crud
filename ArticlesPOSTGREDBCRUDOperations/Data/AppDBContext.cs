@@ -20,20 +20,20 @@ namespace ArticlesPOSTGREDBCRUDOperations.Data
             {
                 entity.HasKey(x => x.Id);
                 entity.Property(e => e.UserName).IsRequired().HasMaxLength(20);
-                entity.Property(e => e.Password).IsRequired();
+                entity.Property(e => e.PasswordHash).IsRequired();
 
                 entity.HasData(
                     new User
                     {
                         Id = 1,
                         UserName = "test",
-                        Password = "password",
+                        PasswordHash = BCrypt.Net.BCrypt.HashPassword("password1")
                     },
                     new User
                     {
                         Id = 2,
                         UserName = "test2",
-                        Password = "password2",
+                        PasswordHash = BCrypt.Net.BCrypt.HashPassword("password2")
                     });
 
             });
