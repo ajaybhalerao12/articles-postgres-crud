@@ -23,7 +23,8 @@ namespace ArticlesPOSTGREDBCRUDOperations.Controllers
         // GET: api/articles
         public async Task<ActionResult<IEnumerable<Article>>> GetArticles()
         {
-            return await _context.Articles.ToListAsync();
+            return await _context.Articles.OrderBy(a => a.Id)
+                .ToListAsync();
         }
 
         [HttpGet("{id}")]
