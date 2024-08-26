@@ -3,6 +3,7 @@ using System;
 using ArticlesPOSTGREDBCRUDOperations.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ArticlesPOSTGREDBCRUDOperations.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240826141806_UserTableCreate2")]
+    partial class UserTableCreate2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,14 +55,14 @@ namespace ArticlesPOSTGREDBCRUDOperations.Migrations
                         {
                             Id = 1,
                             Content = "This is the content of the first article.",
-                            CreatedAt = new DateTime(2024, 8, 26, 14, 19, 29, 662, DateTimeKind.Utc).AddTicks(3821),
+                            CreatedAt = new DateTime(2024, 8, 26, 14, 18, 6, 692, DateTimeKind.Utc).AddTicks(4120),
                             Title = "First Article"
                         },
                         new
                         {
                             Id = 2,
                             Content = "This is the content of the second article.",
-                            CreatedAt = new DateTime(2024, 8, 26, 14, 19, 29, 662, DateTimeKind.Utc).AddTicks(3822),
+                            CreatedAt = new DateTime(2024, 8, 26, 14, 18, 6, 692, DateTimeKind.Utc).AddTicks(4122),
                             Title = "Second Article"
                         });
                 });
@@ -96,8 +99,8 @@ namespace ArticlesPOSTGREDBCRUDOperations.Migrations
                         new
                         {
                             Id = 2,
-                            Password = "password2",
-                            UserName = "test2"
+                            Password = "password",
+                            UserName = "test"
                         });
                 });
 #pragma warning restore 612, 618

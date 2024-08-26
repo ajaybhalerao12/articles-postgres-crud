@@ -9,12 +9,34 @@ namespace ArticlesPOSTGREDBCRUDOperations.Data
         {
 
         }
+        public DbSet<User> Users { get; set; }
         public DbSet<Article> Articles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.HasKey(x => x.Id);
+                entity.Property(e => e.UserName).IsRequired().HasMaxLength(20);
+                entity.Property(e => e.Password).IsRequired();
+
+                entity.HasData(
+                    new User
+                    {
+                        Id = 1,
+                        UserName = "test",
+                        Password = "password",
+                    },
+                    new User
+                    {
+                        Id = 2,
+                        UserName = "test2",
+                        Password = "password2",
+                    });
+
+            });
             modelBuilder.Entity<Article>().HasData(
                 new Article
                 {
