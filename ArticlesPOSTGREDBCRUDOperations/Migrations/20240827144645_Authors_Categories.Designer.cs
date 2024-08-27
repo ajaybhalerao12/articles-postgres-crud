@@ -3,6 +3,7 @@ using System;
 using ArticlesPOSTGREDBCRUDOperations.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ArticlesPOSTGREDBCRUDOperations.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240827144645_Authors_Categories")]
+    partial class Authors_Categories
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,22 +38,40 @@ namespace ArticlesPOSTGREDBCRUDOperations.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
 
                     b.ToTable("Articles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AuthorId = 0,
+                            Content = "This is the content of the first article.",
+                            CreatedAt = new DateTime(2024, 8, 27, 14, 46, 45, 387, DateTimeKind.Utc).AddTicks(7766),
+                            Title = "First Article"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AuthorId = 0,
+                            Content = "This is the content of the second article.",
+                            CreatedAt = new DateTime(2024, 8, 27, 14, 46, 45, 387, DateTimeKind.Utc).AddTicks(7778),
+                            Title = "Second Article"
+                        });
                 });
 
             modelBuilder.Entity("ArticlesPOSTGREDBCRUDOperations.Models.ArticleCategory", b =>
@@ -136,13 +157,13 @@ namespace ArticlesPOSTGREDBCRUDOperations.Migrations
                         new
                         {
                             Id = 1,
-                            PasswordHash = "$2a$11$bi8LIdCcIx3KZkHJ3If9dO1KeC7Ki6v42yEwObXYXeoDEjJwWPg.q",
+                            PasswordHash = "$2a$11$2MjIacEN/1sj1MFCGA5l9O4FQlCCJ2.u36qmxOtwCjgGoB6L.cISC",
                             UserName = "test"
                         },
                         new
                         {
                             Id = 2,
-                            PasswordHash = "$2a$11$sDcVyWnMYwg8jciliarML.aV0oUIxVQ4lW.Oj6vXkzhGDBLsYKETa",
+                            PasswordHash = "$2a$11$c98hsyM4QLuDiCEMjvlbWOuZAn8i09Ct3THRD23wyvhr.I6/v6ex6",
                             UserName = "test2"
                         });
                 });

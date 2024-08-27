@@ -11,10 +11,26 @@ namespace ArticlesPOSTGREDBCRUDOperations.Data
         }
         public DbSet<User> Users { get; set; }
         public DbSet<Article> Articles { get; set; }
+        public DbSet<Author> Authors { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<ArticleCategory> ArticleCategories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<ArticleCategory>()
+                .HasKey(ac => new { ac.ArticleId, ac.CategoryId });
+
+            modelBuilder.Entity<ArticleCategory>()
+                .HasOne(ac=> ac.Article)
+                .WithMany(ac=>ac.ArticleCategories)
+                .HasForeignKey(ac=>ac.ArticleId);
+
+            modelBuilder.Entity<ArticleCategory>()
+                .HasOne(ac => ac.Category)
+                .WithMany(ac => ac.ArticleCategories)
+                .HasForeignKey(ac => ac.CategoryId);
 
             modelBuilder.Entity<User>(entity =>
             {
@@ -37,21 +53,21 @@ namespace ArticlesPOSTGREDBCRUDOperations.Data
                     });
 
             });
-            modelBuilder.Entity<Article>().HasData(
-                new Article
-                {
-                    Id = 1,
-                    Title = "First Article",
-                    Content = "This is the content of the first article.",
-                    CreatedAt = DateTime.UtcNow
-                },
-                new Article
-                {
-                    Id = 2,
-                    Title = "Second Article",
-                    Content = "This is the content of the second article.",
-                    CreatedAt = DateTime.UtcNow
-                });
+            //modelBuilder.Entity<Article>().HasData(
+            //    new Article
+            //    {
+            //        Id = 1,
+            //        Title = "First Article",
+            //        Content = "This is the content of the first article.",
+            //        CreatedAt = DateTime.UtcNow
+            //    },
+            //    new Article
+            //    {
+            //        Id = 2,
+            //        Title = "Second Article",
+            //        Content = "This is the content of the second article.",
+            //        CreatedAt = DateTime.UtcNow
+            //    });
         }
     }
 }

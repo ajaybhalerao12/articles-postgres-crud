@@ -11,12 +11,18 @@ public class Article
     public int Id { get; set; }
 
     [Required]
-    [StringLength(20)]
+    [StringLength(100)]
     public string Title { get; set; }
 
     [Required]
-    [StringLength(50)]
+    [StringLength(255)]
     public string Content { get; set; }
     
     public DateTime CreatedAt { get; set; }
+    
+    public int AuthorId { get; set; }
+
+    public Author Author { get; set; }
+
+    public ICollection<ArticleCategory> ArticleCategories { get; set; }
 }
