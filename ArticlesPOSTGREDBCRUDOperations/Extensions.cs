@@ -43,6 +43,7 @@ namespace ArticlesPOSTGREDBCRUDOperations
                 });
             services.AddSingleton<TokenService>();
             services.AddControllers();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());    
         }
 
         private static void RegisterSwaggerServices(IServiceCollection services)

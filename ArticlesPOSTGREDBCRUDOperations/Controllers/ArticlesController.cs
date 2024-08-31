@@ -1,5 +1,7 @@
 ﻿using ArticlesPOSTGREDBCRUDOperations.Data;
+using ArticlesPOSTGREDBCRUDOperations.DTOs;
 using ArticlesPOSTGREDBCRUDOperations.Models;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,31 +14,33 @@ namespace ArticlesPOSTGREDBCRUDOperations.Controllers
     [Route("api/articles")]
     public class ArticlesController : ControllerBase
     {
-        private readonly AppDBContext _context;
+        private readonly IMapper _mapper;
+        private readonly AppDBContext _context;        
 
-        public ArticlesController(AppDBContext context)
-        {
+        public ArticlesController(IMapper mapper, AppDBContext context)
+        {            
+            _mapper = mapper;
             _context = context;
         }
 
         [HttpGet]
         // GET: api/articles
-        public async Task<ActionResult<IEnumerable<Article>>> GetArticles()
-        {
-            return await _context.Articles.OrderBy(a => a.Id)
-                .ToListAsync();
+        public async Task<ActionResult<IEnumerable<ArticleDto>>> GetArticles()
+        {            
+            var articles = await _context.Articles.ToListAsync();
+            var articleDtos = _mapper.Map<List<ArticleDto>>(articles);
+            return Ok(articleDtos);
         }
 
         [HttpGet("{id}")]
-        // GET: api/articles/{id}
-        public async Task<ActionResult<Article>> GetArticle(int id)
+        public async Task<ActionResult<ArticleDto>> GetArticle(int id)
         {
             Article? article = await _context.Articles.FindAsync(id);
             if (article == null)
             {
                 return NotFound();
             }
-            return article;
+            return _mapper.Map<ArticleDto>(article);
         }
 
         [HttpPost]
