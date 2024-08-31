@@ -53,28 +53,35 @@ namespace ArticlesPOSTGREDBCRUDOperations.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutArticle(int id, Article article)
+        public async Task<ActionResult<ArticleDto>> PutArticle(int id, ArticleDto articleDto)
         {
-            if (id != article.Id)
+            var article = await _articleService.UpdateArticle(id, articleDto);
+            if(article == null)
             {
-                return BadRequest();
+                return NotFound();
             }
-            _context.Entry(article).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ArticleExists(id))
-                {
-                    return NotFound();
-                }
-                throw;
-            }
-
             return NoContent();
+
+            //if (id != article.Id)
+            //{
+            //    return BadRequest();
+            //}
+            //_context.Entry(article).State = EntityState.Modified;
+
+            //try
+            //{
+            //    await _context.SaveChangesAsync();
+            //}
+            //catch (DbUpdateConcurrencyException)
+            //{
+            //    if (!ArticleExists(id))
+            //    {
+            //        return NotFound();
+            //    }
+            //    throw;
+            //}
+
+            //return NoContent();
         }
 
         [HttpDelete("{id}")]

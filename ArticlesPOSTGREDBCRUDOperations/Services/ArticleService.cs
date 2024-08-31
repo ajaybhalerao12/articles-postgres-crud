@@ -77,5 +77,49 @@ namespace ArticlesPOSTGREDBCRUDOperations.Services
             ArticleDto articleDto = mapper.Map<ArticleDto>(article);
             return articleDto;
         }
+
+        public async Task<ArticleDto> UpdateArticle(int articleId, ArticleDto articleDto)
+        {
+            var article = mapper.Map<Article>(articleDto);
+
+            // Check if the article already exists
+            var existingArticle = await context.Articles
+                .Include(a => a.ArticleCategories)
+                .FirstOrDefaultAsync(a => a.Id == articleId);
+
+            if (existingArticle == null)
+            {
+                return null;
+            }
+            else
+            {
+                existingArticle.Title = articleDto.Title;
+                existingArticle.Content = articleDto.Content;
+                existingArticle.CreatedAt = articleDto.CreatedAt;
+                existingArticle.AuthorId = article.AuthorId;
+
+                // Update Categories
+                existingArticle.ArticleCategories.Clear();
+                foreach (var categoryName in articleDto.Categories)
+                {
+                    var category = await context.Categories
+                        .FirstOrDefaultAsync(c => c.CategoryName == categoryName);
+
+                    if (category != null)
+                    {
+                        existingArticle.ArticleCategories.Add(new ArticleCategory
+                        {
+                            ArticleId = articleId,
+                            CategoryId = category.CategoryId,
+                        });
+                    }
+                }
+                context.Articles.Update(existingArticle);
+            }
+            await context.SaveChangesAsync();
+
+            return mapper.Map<ArticleDto>(article);
+
+        }
     }
 }
