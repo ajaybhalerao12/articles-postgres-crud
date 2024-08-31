@@ -5,6 +5,7 @@ namespace ArticlesPOSTGREDBCRUDOperations.Services
 {
     public interface IArticleService
     {
+        public Task<IEnumerable<ArticleDto>> GetAllArticles();
         public Task<ArticleDto>? GetArticleWithDetails(int articleId);
     }
 }

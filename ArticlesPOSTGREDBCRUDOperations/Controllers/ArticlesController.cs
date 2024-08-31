@@ -14,14 +14,12 @@ namespace ArticlesPOSTGREDBCRUDOperations.Controllers
     [ApiController]
     [Route("api/articles")]
     public class ArticlesController : ControllerBase
-    {
-        private readonly IMapper _mapper;
+    {        
         private readonly AppDBContext _context;
         private readonly ArticleService _articleService;
 
-        public ArticlesController(IMapper mapper, AppDBContext context, ArticleService articleService)
-        {            
-            _mapper = mapper;
+        public ArticlesController(AppDBContext context, ArticleService articleService)
+        {   
             _context = context;
             _articleService = articleService;
         }
@@ -29,10 +27,9 @@ namespace ArticlesPOSTGREDBCRUDOperations.Controllers
         [HttpGet]
         // GET: api/articles
         public async Task<ActionResult<IEnumerable<ArticleDto>>> GetArticles()
-        {            
-            var articles = await _context.Articles.ToListAsync();
-            var articleDtos = _mapper.Map<List<ArticleDto>>(articles);
-            return Ok(articleDtos);
+        {
+            var articlesDtos = await _articleService.GetAllArticles();
+            return Ok(articlesDtos);
         }
 
         [HttpGet("{id}")]

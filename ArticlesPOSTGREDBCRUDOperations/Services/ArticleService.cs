@@ -8,6 +8,17 @@ namespace ArticlesPOSTGREDBCRUDOperations.Services
     public class ArticleService(IMapper mapper, AppDBContext context): 
         IArticleService
     {
+        public async Task<IEnumerable<ArticleDto>> GetAllArticles()
+        {
+            var articles= await context.Articles
+                .Include(a => a.Author)
+                .Include(ac => ac.ArticleCategories)
+                    .ThenInclude(ac => ac.Category)
+                .ToListAsync();
+            var articleDtos = mapper.Map<IEnumerable<ArticleDto>>(articles);
+            return articleDtos;
+        }
+
         public Task<ArticleDto>? GetArticleWithDetails(int articleId)
         {
             var article = context.Articles
