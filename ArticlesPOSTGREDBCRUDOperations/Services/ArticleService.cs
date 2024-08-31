@@ -11,6 +11,8 @@ namespace ArticlesPOSTGREDBCRUDOperations.Services
     {
         public async Task<ArticleDto> AddArticle(ArticleDto articleDto)
         {
+            articleDto.CreatedAt = DateTime.UtcNow;
+            articleDto.Id = context.Articles.Count() + 1;
             var article = mapper.Map<Article>(articleDto);
             
             // Add new article

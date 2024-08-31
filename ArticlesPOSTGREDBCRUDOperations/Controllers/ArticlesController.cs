@@ -46,7 +46,7 @@ namespace ArticlesPOSTGREDBCRUDOperations.Controllers
         [HttpPost]
         public async Task<ActionResult<Article>> PostArticle(ArticleDto articleDto)
         {
-            articleDto.CreatedAt = DateTime.UtcNow;
+          
             var newArticle = await _articleService.AddArticle(articleDto);
 
             return CreatedAtAction("GetArticle", new { id = articleDto.Id} , articleDto);
