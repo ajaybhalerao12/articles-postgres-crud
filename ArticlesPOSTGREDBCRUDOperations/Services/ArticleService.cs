@@ -19,13 +19,13 @@ namespace ArticlesPOSTGREDBCRUDOperations.Services
             return articleDtos;
         }
 
-        public Task<ArticleDto>? GetArticleWithDetails(int articleId)
+        public async Task<ArticleDto>? GetArticleWithDetails(int articleId)
         {
-            var article = context.Articles
+            var article = await context.Articles
                 .Include(x => x.Author)
                 .Include(ac => ac.ArticleCategories)
                    .ThenInclude(ac => ac.Category)
-                .FirstOrDefault(a => a.Id == articleId);
+                .FirstOrDefaultAsync(a=> a.Id == articleId);
             //var article = context.Articles
             //.Include(a => a.Author)
 
@@ -41,12 +41,13 @@ namespace ArticlesPOSTGREDBCRUDOperations.Services
             //})
             //.FirstOrDefault();
 
-            if (article == null) {
+            if (article == null)
+            {
                 return null;
             }
 
             ArticleDto articleDto = mapper.Map<ArticleDto>(article);
-            return Task.FromResult<ArticleDto>(articleDto);
+            return articleDto;
         }
     }
 }

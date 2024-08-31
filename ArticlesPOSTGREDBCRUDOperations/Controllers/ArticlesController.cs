@@ -16,9 +16,9 @@ namespace ArticlesPOSTGREDBCRUDOperations.Controllers
     public class ArticlesController : ControllerBase
     {        
         private readonly AppDBContext _context;
-        private readonly ArticleService _articleService;
+        private readonly IArticleService _articleService;
 
-        public ArticlesController(AppDBContext context, ArticleService articleService)
+        public ArticlesController(AppDBContext context, IArticleService articleService)
         {   
             _context = context;
             _articleService = articleService;
@@ -35,7 +35,7 @@ namespace ArticlesPOSTGREDBCRUDOperations.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<ArticleDto>> GetArticle(int id)
         {
-            var article = await _articleService.GetArticleWithDetails(id);
+            ArticleDto? article = await _articleService.GetArticleWithDetails(id);
             if (article == null)
             {
                 return NotFound();

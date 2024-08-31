@@ -22,7 +22,7 @@ namespace ArticlesPOSTGREDBCRUDOperations
         }
 
         private static void RegisterCustomServices(IServiceCollection services, IConfiguration configuration)
-        {
+        {            
             // Add DBContext in DI container
             services.AddDbContext<AppDBContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
@@ -43,7 +43,7 @@ namespace ArticlesPOSTGREDBCRUDOperations
                     };
                 });
             services.AddSingleton<TokenService>();
-            services.AddScoped<ArticleService>();
+            services.AddScoped<IArticleService, ArticleService>();
             services.AddControllers();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());    
         }
