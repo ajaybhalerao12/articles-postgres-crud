@@ -36,6 +36,7 @@ namespace ArticlesPOSTGREDBCRUDOperations.Services
             var createdArticleDto = mapper.Map<ArticleDto>(article);
             return createdArticleDto;
         }
+
         public async Task<IEnumerable<ArticleDto>> GetAllArticles()
         {
             var articles = await context.Articles
@@ -119,7 +120,22 @@ namespace ArticlesPOSTGREDBCRUDOperations.Services
             await context.SaveChangesAsync();
 
             return mapper.Map<ArticleDto>(article);
+        }
 
+        public async Task<bool> DeleteArticle(int articleId)
+        {
+            var article = await context.Articles.FindAsync(articleId);
+            if (article == null) {
+                return false;
+            };
+            context.Articles.Remove(article);
+            await context.SaveChangesAsync();
+            return true;
+        }
+
+        private bool ArticleExists(int id)
+        {
+            return context.Articles.Any(a => a.Id == id);
         }
     }
 }

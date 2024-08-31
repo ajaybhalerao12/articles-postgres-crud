@@ -1,12 +1,8 @@
-﻿using ArticlesPOSTGREDBCRUDOperations.Data;
-using ArticlesPOSTGREDBCRUDOperations.DTOs;
+﻿using ArticlesPOSTGREDBCRUDOperations.DTOs;
 using ArticlesPOSTGREDBCRUDOperations.Models;
 using ArticlesPOSTGREDBCRUDOperations.Services;
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace ArticlesPOSTGREDBCRUDOperations.Controllers
 {
@@ -14,13 +10,12 @@ namespace ArticlesPOSTGREDBCRUDOperations.Controllers
     [ApiController]
     [Route("api/articles")]
     public class ArticlesController : ControllerBase
-    {        
-        private readonly AppDBContext _context;
+    {
+
         private readonly IArticleService _articleService;
 
-        public ArticlesController(AppDBContext context, IArticleService articleService)
+        public ArticlesController(IArticleService articleService)
         {   
-            _context = context;
             _articleService = articleService;
         }
 
@@ -32,6 +27,7 @@ namespace ArticlesPOSTGREDBCRUDOperations.Controllers
             return Ok(articlesDtos);
         }
 
+        // GET: api/articles/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<ArticleDto>> GetArticle(int id)
         {
@@ -45,20 +41,19 @@ namespace ArticlesPOSTGREDBCRUDOperations.Controllers
 
         [HttpPost]
         public async Task<ActionResult<Article>> PostArticle(ArticleDto articleDto)
-        {
-          
+        {          
             var newArticle = await _articleService.AddArticle(articleDto);
-
             return CreatedAtAction("GetArticle", new { id = articleDto.Id} , articleDto);
         }
 
+        // Update: api/articles/{id}
         [HttpPut("{id}")]
         public async Task<ActionResult<ArticleDto>> PutArticle(int id, ArticleDto articleDto)
         {
             var article = await _articleService.UpdateArticle(id, articleDto);
             if(article == null)
             {
-                return NotFound();
+                return NotFound(new { Message = $"Article with {id} not found " });
             }
             return NoContent();
 
@@ -84,24 +79,16 @@ namespace ArticlesPOSTGREDBCRUDOperations.Controllers
             //return NoContent();
         }
 
+        // DELETE: api/articles/{id}
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteArticle(int id)
-        {            
-            var article = await _context.Articles.FindAsync(id);
-
-            if (article == null)
-            {
-                return NotFound();
-            }
-            _context.Articles.Remove(article);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool ArticleExists(int id)
         {
-            return _context.Articles.Any(a => a.Id == id);
+            bool result = await _articleService.DeleteArticle(id);
+            if (!result)
+            {
+                return NotFound(new { Message =$"Article with {id} not found "});
+            }
+            return NoContent();
         }
     }
 }

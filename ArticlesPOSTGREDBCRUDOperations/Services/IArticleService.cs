@@ -8,7 +8,7 @@ namespace ArticlesPOSTGREDBCRUDOperations.Services
         public Task<IEnumerable<ArticleDto>> GetAllArticles();
         public Task<ArticleDto>? GetArticleWithDetails(int articleId);
         public Task<ArticleDto> AddArticle(ArticleDto articleDto);
-
         public Task<ArticleDto> UpdateArticle(int articleId,ArticleDto articleDto);
+        public Task<bool> DeleteArticle(int articleId);
     }
 }
