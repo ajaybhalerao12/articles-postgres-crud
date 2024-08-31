@@ -44,14 +44,12 @@ namespace ArticlesPOSTGREDBCRUDOperations.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Article>> PostArticle(Article article)
+        public async Task<ActionResult<Article>> PostArticle(ArticleDto articleDto)
         {
-            article.CreatedAt = DateTime.UtcNow;
-            _context.Articles.Add(article);
+            articleDto.CreatedAt = DateTime.UtcNow;
+            var newArticle = await _articleService.AddArticle(articleDto);
 
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetArticle", article.Id, article);
+            return CreatedAtAction("GetArticle", new { id = articleDto.Id} , articleDto);
         }
 
         [HttpPut("{id}")]
