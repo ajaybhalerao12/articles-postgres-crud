@@ -2,16 +2,6 @@
 
 namespace ArticlesPOSTGREDBCRUDOperations.DTOs
 {
-    //public class ArticleDto
-    //{
-    //    public int Id { get; set; }
-    //    public string Title { get; set; }
-    //    public string Content { get; set; }
-    //    public DateTime CreatedAt { get; set; }
-    //    public AuthorDto Author { get; set; }
-
-    //}
-
     public class ArticleDto
     {
         public int Id { get; set; }

@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using ArticlesPOSTGREDBCRUDOperations.Services;
 namespace ArticlesPOSTGREDBCRUDOperations
 {
     public static class Extensions
@@ -42,6 +43,7 @@ namespace ArticlesPOSTGREDBCRUDOperations
                     };
                 });
             services.AddSingleton<TokenService>();
+            services.AddScoped<ArticleService>();
             services.AddControllers();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());    
         }

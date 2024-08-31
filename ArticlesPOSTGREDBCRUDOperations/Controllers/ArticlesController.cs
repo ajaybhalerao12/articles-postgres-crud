@@ -1,6 +1,7 @@
 ﻿using ArticlesPOSTGREDBCRUDOperations.Data;
 using ArticlesPOSTGREDBCRUDOperations.DTOs;
 using ArticlesPOSTGREDBCRUDOperations.Models;
+using ArticlesPOSTGREDBCRUDOperations.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -15,12 +16,14 @@ namespace ArticlesPOSTGREDBCRUDOperations.Controllers
     public class ArticlesController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly AppDBContext _context;        
+        private readonly AppDBContext _context;
+        private readonly ArticleService _articleService;
 
-        public ArticlesController(IMapper mapper, AppDBContext context)
+        public ArticlesController(IMapper mapper, AppDBContext context, ArticleService articleService)
         {            
             _mapper = mapper;
             _context = context;
+            _articleService = articleService;
         }
 
         [HttpGet]
@@ -34,13 +37,13 @@ namespace ArticlesPOSTGREDBCRUDOperations.Controllers
 
         [HttpGet("{id}")]
         public async Task<ActionResult<ArticleDto>> GetArticle(int id)
-        {
-            Article? article = await _context.Articles.FindAsync(id);
+        {            
+            var article = await _articleService.GetArticleWithAuthor(id);
             if (article == null)
             {
                 return NotFound();
             }
-            return _mapper.Map<ArticleDto>(article);
+            return Ok(article);
         }
 
         [HttpPost]
