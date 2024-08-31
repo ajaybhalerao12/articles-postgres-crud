@@ -5,23 +5,30 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ArticlesPOSTGREDBCRUDOperations.Services
 {
-    public class ArticleService(IMapper mapper, AppDBContext context)
+    public class ArticleService(IMapper mapper, AppDBContext context): 
+        IArticleService
     {
-        public Task<ArticleDto>? GetArticleWithAuthor(int articleId)
+        public Task<ArticleDto>? GetArticleWithDetails(int articleId)
         {
             var article = context.Articles
-            .Include(a => a.Author)
-            .Where(a => a.Id == articleId)
-            .Select(a => new ArticleDto
-            {
-                Id = a.Id,
-                Title = a.Title,
-                Content = a.Content,
-                CreatedAt = a.CreatedAt,
-                AuthorId = a.AuthorId,
-                AuthorName = a.Author.Name
-            })
-            .FirstOrDefault();
+                .Include(x => x.Author)
+                .Include(ac => ac.ArticleCategories)
+                   .ThenInclude(ac => ac.Category)
+                .FirstOrDefault(a => a.Id == articleId);
+            //var article = context.Articles
+            //.Include(a => a.Author)
+
+            //.Where(a => a.Id == articleId)
+            //.Select(a => new ArticleDto
+            //{
+            //    Id = a.Id,
+            //    Title = a.Title,
+            //    Content = a.Content,
+            //    CreatedAt = a.CreatedAt,
+            //    AuthorId = a.AuthorId,
+            //    AuthorName = a.Author.Name
+            //})
+            //.FirstOrDefault();
 
             if (article == null) {
                 return null;

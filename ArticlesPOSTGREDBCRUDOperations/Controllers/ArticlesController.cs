@@ -37,8 +37,8 @@ namespace ArticlesPOSTGREDBCRUDOperations.Controllers
 
         [HttpGet("{id}")]
         public async Task<ActionResult<ArticleDto>> GetArticle(int id)
-        {            
-            var article = await _articleService.GetArticleWithAuthor(id);
+        {
+            var article = await _articleService.GetArticleWithDetails(id);
             if (article == null)
             {
                 return NotFound();
