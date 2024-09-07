@@ -118,7 +118,7 @@ To use the authentication feature, follow these steps:
 - Description: Deletes an article by its ID.
 
 ## Contributing
-Feel free to open issues and submit pull requests. Contributions are welcome!
+Feel free to open issues and submit pull requests. Contributions are welcome!!
 
 ## License
 This project is licensed under the MIT License - see the LICENSE file for details.
